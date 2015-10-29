@@ -11,5 +11,8 @@
 	    "matches": ["https://s3.amazonaws.com/archive.travis-ci.org/jobs/*/log.txt"],
 	    "js": ["jquery.min.js", "ansi_up.js", "colorize.js"]
 	}
-    ]
+    ],
+    "icons": {
+	"128": "icon.png"
+    }
 }
