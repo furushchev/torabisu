@@ -1,6 +1,7 @@
 {
   "name": "Torabisu",
-  "version": "1.0.1",
+  "author": "furushchev",
+  "version": "1.1.0",
   "description": "Enhanced Travis-CI Browsing Extension for Google Chrome",
   "manifest_version": 2,
   "browser_action": {
