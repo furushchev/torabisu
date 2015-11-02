@@ -3,8 +3,30 @@
   <head>
     <meta charset="utf-8">
     <title>TORABISU</title>
-    <link rel="stylesheet" href="css/popup.css" type="text/css">
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body>
+    <form id="setting-form">
+      <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> -->
+      <!--   <input class="mdl-textfield__input" type="text" id="slack-username" /> -->
+      <!--   <label class="mdl-textfield__label" for="slack-username">Slack Username</label> -->
+      <!-- </div> -->
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="slack-token" />
+        <label class="mdl-textfield__label" for="slack-token">Slack Token</label>
+      </div>
+      <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> -->
+      <!--   <input class="mdl-textfield__input" type="text" id="travis-token" /> -->
+      <!--   <label class="mdl-textfield__label" for="travis-token">Travis Token</label> -->
+      <!-- </div> -->
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" id="save-button">
+        SAVE
+      </button>
+      <span id="save-result"></span>
+    </form>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/material.min.js"></script>
+    <script src="../js/popup.js"></script>
   </body>
 </html>
