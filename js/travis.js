@@ -1,6 +1,6 @@
 $(function(){
   // colorize
-  $('pre').html(("hogehoge" + ansi_up.ansi_to_html($('pre').text())));
+  $('pre').html(ansi_up.ansi_to_html($('pre').text()));
   
   // summerize
   var queries = ["RESULT: FAIL"];
