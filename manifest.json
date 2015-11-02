@@ -8,7 +8,7 @@
     "default_popup": "html/popup.html"
   },
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": ["js/jquery.min.js", "js/background.js"]
   },
   "content_scripts": [
     {
@@ -25,6 +25,8 @@
   },
   "permissions": [
     "tabs",
+    "contextMenus",
+    "storage",
     "https://travis-ci.org/*",
     "https://api.travis-ci.org/*"
   ]
