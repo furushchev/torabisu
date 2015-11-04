@@ -78,7 +78,7 @@ var contextMenuCallback = function(info, tab){
     requestRestartTravis(repo, b.number, function(res){
       console.log(res);
       if(!res.ok){
-        alert(res.error);
+        alert(res.error + '\nPlease click "torabisu" icon on the top right corner of the browser, then check your Slack token is correctly set.');
       }
     });
   });
