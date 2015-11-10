@@ -17,7 +17,7 @@
       "js": ["js/jquery.min.js", "js/ansi_up.js", "js/travis.js"]
     },
     {
-      "matches": ["https://github.com/*/*"],
+      "matches": ["https://github.com/*"],
       "js": ["js/jquery.min.js", "js/github.js"]
     }
   ],
@@ -28,7 +28,11 @@
     "tabs",
     "contextMenus",
     "storage",
+    "webRequest",
+    "webRequestBlocking",
     "https://travis-ci.org/*",
-    "https://api.travis-ci.org/*"
+    "https://github.com/*",
+    "https://api.travis-ci.org/*",
+    "https://s3.amazonaws.com/archive.travis-ci.org/jobs/*"
   ]
 }

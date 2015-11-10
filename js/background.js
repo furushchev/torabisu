@@ -1,5 +1,10 @@
+/*
+  show travis badge on github page
+*/
 chrome.runtime.onMessage.addListener(function(req, sender, res) {
-  if (!"requestBadge" in req) return;
+  console.log(req.hasOwnProperty("requestBadge"));
+  if (!req.hasOwnProperty("requestBadge")) return;
+  console.log("hogehoge");
   var url = sender.url;
   var matched = url.match(/https:\/\/github.com\/([a-zA-Z0-9-_.]+)\/([a-zA-Z0-9-_.]+)/);
   if (matched != null){
@@ -22,8 +27,10 @@ chrome.runtime.onMessage.addListener(function(req, sender, res) {
   }
 }); // runtime.onMessage
 
-
-var getTokens = function(cb){
+/*
+  travis restart from context menu
+*/
+var getConfig = function(cb){
   var defaults  = {
     "slack_username": null,
     "slack_token": null
@@ -32,7 +39,7 @@ var getTokens = function(cb){
 };
 
 var requestRestartTravis = function(repo, job_no, cb){
-  getTokens(function(items){
+  getConfig(function(items){
     var url = 'https://slack.com/api/chat.postMessage';
     $.ajax({
       type: 'GET',
@@ -50,7 +57,7 @@ var requestRestartTravis = function(repo, job_no, cb){
 };
 
 var fetchBuildInfo = function(repo, build_no, cb){
-  getTokens(function(items){
+  getConfig(function(items){
     var url = 'https://api.travis-ci.org/repos/' + repo + '/builds/' + build_no;
     $.ajax({
       type: 'GET',
@@ -59,14 +66,12 @@ var fetchBuildInfo = function(repo, build_no, cb){
         'Accept': 'application/vnd.travis-ci.2+json'
       },
       dataType: 'json'
-/*      ,data: {
-        'token': items.travis_token
-      } */
+//      ,data: {'token': items.travis_token }
     }).done(cb);
   });
 };
 
-var contextMenuCallback = function(info, tab){
+var restartTravisContextMenuCallback = function(info, tab){
   var link_matched = info.linkUrl.match(/^https:\/\/travis-ci\.org\/([a-zA-Z0-9-_.]+)\/([a-zA-Z0-9-_.]+)\/jobs\/([0-9]+)$/);
   var build_no = info.pageUrl.match(/^https:\/\/travis-ci\.org\/([a-zA-Z0-9-_.]+)\/([a-zA-Z0-9-_.]+)\/builds\/([0-9]+)$/)[3];
   var repo = link_matched[1] + '/' + link_matched[2];
@@ -88,8 +93,76 @@ chrome.contextMenus.create({
   "type": "normal",
   "title": "Restart Travis",
   "contexts": ["link"],
-  "onclick": contextMenuCallback,
+  "onclick": restartTravisContextMenuCallback,
   "documentUrlPatterns": ["https://travis-ci.org/*/*/builds/*"
 //                         ,"https://magnum.travis-ci.com/*/*/builds/*"
                          ]
+}); // contextMenus.create
+
+/*
+  redirect to full log page on travis
+*/
+chrome.webRequest.onBeforeRequest.addListener(
+  function(details){
+    console.log(details);
+    var jobid = details.url.match(/(.+)\/jobs\/([0-9]+)$/);
+    console.log(jobid);
+    if (jobid && jobid.length == 3 && details.method == "GET") {
+      return {"redirectUrl": "https://s3.amazonaws.com/archive.travis-ci.org/jobs/" + jobid[2] + "/log.txt"};
+    }
+  }, {
+    "urls": ["https://travis-ci.org/*"]
+  },
+  ["blocking"]);
+
+/*
+  paste to github issue
+*/
+var fetchJobInfo = function(job_no, cb){
+  $.ajax({
+    type: 'GET',
+    url: 'https://api.travis-ci.org/jobs/' + job_no,
+    headers: {
+      'Accept': 'application/vnd.travis-ci.2+json'
+    },
+    dataType: 'json'
+  }).done(cb);
+};
+
+var commentGithubContextMenuCallback = function(info){
+  var link_matched = info.pageUrl.match(/^(.+)\/jobs\/([0-9]+)\/log.txt$/);
+  chrome.tabs.executeScript(
+    null,
+    { code: "window.getSelection().toString()" },
+    function(selection){
+      var selected_text = selection[0];
+      if (link_matched && link_matched.length == 3) {
+        var job_no = link_matched[2];
+        fetchJobInfo(job_no, function(res) {
+          var github_pr_url = res.commit.compare_url;
+          chrome.tabs.create({
+            url: res.commit.compare_url,
+            active: true
+          }, function(tab){
+            chrome.runtime.onMessage.addListener(function(msg, sender, resfunc){
+              console.log(sender);
+              console.log(msg);
+              if (sender.tab.id == tab.id && msg.hasOwnProperty("requestQuote")){
+                resfunc({ quote: selected_text });
+              } else {
+                resfunc(null);
+              }
+            });
+          });
+        });
+      }
+    });
+};
+
+chrome.contextMenus.create({
+  "type": "normal",
+  "title": "Create Comment on Github",
+  "contexts": ["selection"],
+  "onclick": commentGithubContextMenuCallback,
+  "documentUrlPatterns": ["https://s3.amazonaws.com/archive.travis-ci.org/jobs/*/log.txt"]
 }); // contextMenus.create
