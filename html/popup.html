@@ -2,31 +2,71 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TORABISU</title>
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../css/popup.css">
   </head>
   <body>
-    <form id="setting-form">
-      <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> -->
-      <!--   <input class="mdl-textfield__input" type="text" id="slack-username" /> -->
-      <!--   <label class="mdl-textfield__label" for="slack-username">Slack Username</label> -->
-      <!-- </div> -->
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input" type="text" id="slack-token" />
-        <label class="mdl-textfield__label" for="slack-token">Slack Token</label>
-      </div>
-      <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> -->
-      <!--   <input class="mdl-textfield__input" type="text" id="travis-token" /> -->
-      <!--   <label class="mdl-textfield__label" for="travis-token">Travis Token</label> -->
-      <!-- </div> -->
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" id="save-button">
-        SAVE
-      </button>
-      <span id="save-result"></span>
-    </form>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout-icon material-icons">star rate</div>
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">Torabisu</span>
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+          <a href="#settings" class="mdl-layout__tab is-active" tabindex="-1">Settings</a>
+          <a href="#changelog" class="mdl-layout__tab" tabindex="-1">Change Logs</a>
+        </div>
+      </header>
+
+      <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="settings">
+          <div class="page-content">
+            <form id="setting-form">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="slack-token" />
+                <label class="mdl-textfield__label" for="slack-token">Slack Token</label>
+              </div>
+              <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="show-badge-switch">
+                <input type="checkbox" id="show-badge-switch" class="mdl-switch__input" checked>
+                <span class="mdl-switch__label">Show Travis Badge on Github</span>
+              </label>
+              <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="colorize-switch">
+                <input type="checkbox" id="colorize-switch" class="mdl-switch__input" checked>
+                <span class="mdl-switch__label">Colorize Log</span>
+              </label>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="button" id="save-button">
+                SAVE
+              </button>
+              <span id="save-result"></span>
+            </form>
+          </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="changelog">
+          <div class="page-content">
+            <dl>
+              <dt>2015/10/30</dt>
+              <dd>1.0.0 Release</dd>
+              <dt>2015/11/3</dt>
+              <dd>1.1.0 Add Context Menu to Restart</dd>
+              <dt>2015/11/15</dt>
+              <dd>1.2.0 Add Context Menu for Quoted Comment; Add auto redirect to RAW Log Page</dd>
+              <dd>1.2.1 Remove redirect to RAW Log Page</dd>
+              <dt>2015/11/27</dt>
+              <dd>1.3.0 Add Option Switch</dt>
+            </dl>
+            <br />
+            <p><small>&copy; furushchev 2015 </small><p>
+          </div>
+        </section>
+      </main>
+    </div>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/material.min.js"></script>
+    <script src="../js/storage.js"></script>
     <script src="../js/popup.js"></script>
   </body>
 </html>

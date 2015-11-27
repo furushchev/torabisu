@@ -1,0 +1,13 @@
+body {
+    min-width: 300px;
+    margin: 0px;
+    overflow-x: hidden;
+}
+
+#save-button {
+    margin-top: 15px;
+}
+
+form .mdl-textfield,.mdl-switch {
+    margin-top: 10px;
+}
