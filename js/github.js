@@ -24,8 +24,7 @@ $(function(){
   chrome.runtime.sendMessage(
     { requestQuote: true },
     function(res){
-      console.log(res);
-      if(res.hasOwnProperty("quote")) {
+      if(res && res.hasOwnProperty("quote")) {
         $('#new_comment_field').text("\n```\n" + res.quote + "\n```\n");
         $('html,body').animate({
           scrollTop: $("#new_comment_field").offset().top
