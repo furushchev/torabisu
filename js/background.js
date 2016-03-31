@@ -4,9 +4,7 @@
 loadSettings(function(items){
   if (items.show_badge){
     chrome.runtime.onMessage.addListener(function(req, sender, res) {
-      console.log(req.hasOwnProperty("requestBadge"));
       if (!req.hasOwnProperty("requestBadge")) return;
-      console.log("hogehoge");
       var url = sender.url;
       var matched = url.match(/https:\/\/github.com\/([a-zA-Z0-9-_.]+)\/([a-zA-Z0-9-_.]+)/);
       if (matched != null){
