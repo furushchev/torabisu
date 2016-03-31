@@ -24,7 +24,10 @@ $(function(){
   });
 
   loadSettings(function(items){
-    $('#slack-token').val(items.slack_token);
+    if (items.slack_token) {
+      $('#slack-token').val(items.slack_token);
+      $('#slack-token-textfield').addClass('is-dirty');
+    }
     $('#show-badge-switch').prop('checked', items.show_badge);
     $('#colorize-switch').prop('checked', items.colorize);
     $('#redirect-switch').prop('checked', items.redirect_to_raw_log);
