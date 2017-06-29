@@ -1,4 +1,4 @@
-B1;3409;0c#!/bin/bash
+#!/bin/bash
 
 if [ "$(basename `pwd`)" != "torabisu" ]; then
     echo "please execute in \"torabisu\" directory"
